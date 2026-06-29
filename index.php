@@ -10,7 +10,6 @@ $marking = new Marking($db);
 
 $error_message = '';
 
-
 if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
     $link = $db->Db_Logic_Conection();
     
@@ -21,6 +20,32 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
         if (mysqli_query($link, $sql)) {
             header("Location: index.php");
             exit;
+        }
+    }
+}
+
+if (isset($_POST['update_student'])) {
+    $link = $db->Db_Logic_Conection();
+
+    if ($link && !is_array($link)) {
+        $id = (int)$_POST['student_id'];
+        $student    = mysqli_real_escape_string($link, trim($_POST['Student'] ?? ''));
+        $department = mysqli_real_escape_string($link, trim($_POST['Department'] ?? ''));
+        $progres    = mysqli_real_escape_string($link, trim($_POST['Progres'] ?? ''));
+        $status     = mysqli_real_escape_string($link, trim($_POST['Status'] ?? ''));
+
+        $sql = "UPDATE `informatietable` SET 
+                `Student` = '$student', 
+                `Department` = '$department', 
+                `Progres` = '$progres', 
+                `Status` = '$status' 
+                WHERE `id` = $id";
+
+        if (mysqli_query($link, $sql)) {
+            header("Location: index.php");
+            exit;
+        } else {
+            $error_message = 'Ошибка при обновлении данных: ' . mysqli_error($link);
         }
     }
 }
@@ -50,21 +75,17 @@ if (isset($_POST['add_student'])) {
             $error_message = $result['error'] ?? 'Произошла ошибка при сохранении данных.';
         }
     } else {
-        $error_message = 'Ошибка подключения к БД.';
+        $error_message = 'Ошибка подключения к базе данных.';
     }
 }
 
 if (isset($_POST['send_feedback'])) {
 }
 
-
-
-
-
 $studentId = isset($_GET['id']) ? (int)$_GET['id'] : null;
+$action = $_GET['action'] ?? null;
 
 if ($studentId) {
-
     $link = $db->Db_Logic_Conection();
     $current_student = null;
 
@@ -74,10 +95,13 @@ if ($studentId) {
         $current_student = mysqli_fetch_assoc($result);
     }
 
+    if ($action === 'edit') {
+        require_once __DIR__ . '/EditPage.php';
+    } else {
+        require_once __DIR__ . '/StudentPage.php';
+    }
 
-require_once __DIR__ . '/StudentPage.php';
 } else {
-
     $marking->Db_Student_Table();
 }
 ?>

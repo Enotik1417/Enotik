@@ -304,30 +304,50 @@
     color: #555; 
 }
 
-/* студенты в табилцк */
-.student-link,
-.info-table__body a {
+/* студент ссылка */
+.student-link {
     color: #000000 !important;
     text-decoration: none !important;
     font-weight: bold;
 }
 
-.student-link:hover,
-.info-table__body a:hover {
-    color: #555555 !important;
+.student-link:hover {
+    color: #000000 !important; 
     text-decoration: underline !important;
 }
 
-/* Кнопка Удалить в таблице (Всегда красная) */
-.info-table__body a[href*="delete"], 
-.info-table__body a.delete-btn,
-.info-table__body a[href*="delete"]:hover, 
-.info-table__body a.delete-btn:hover {
-    color: #ff4d4d !important;
+/* Редактировать */
+.btn-edit {
+    color: #000000 !important;
     text-decoration: none !important;
+    font-weight: bold;
+    display: inline-block !important;
+    margin-right: 15px !important;  
 }
 
-/* назад */
+.btn-edit:hover {
+    color: #000000 !important; 
+    text-decoration: underline !important;
+}
+
+/* Удалить */
+.info-table__body a[href*="delete"], 
+.info-table__body a.delete-btn,
+.btn-delete {
+    color: #ff4d4d !important;
+    text-decoration: none !important;
+    font-weight: bold;
+    display: inline-block !important;
+}
+
+.info-table__body a[href*="delete"]:hover, 
+.info-table__body a.delete-btn:hover,
+.btn-delete:hover {
+    color: #ff4d4d !important;
+    text-decoration: underline !important;
+}
+
+/* Назад*/
 .back-btn { 
     display: inline-block; 
     margin-top: 20px; 
@@ -337,5 +357,11 @@
 }
 
 .back-btn:hover { 
-    color: #555555 !important;
+    color: #000000 !important; 
+    text-decoration: underline !important;
+}
+
+.info-table__head .info-table__row th:last-child,
+.info-table__body .info-table__row td:last-child {
+    text-align: center !important;
 }
