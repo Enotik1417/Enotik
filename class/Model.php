@@ -60,5 +60,46 @@ class Model {
 }
 
 
-?>
 
+
+
+$studentId = isset($_GET['id']) ? (int)$_GET['id'] : null;
+$current_student = null;
+
+if ($studentId) {
+    $link = $db->Db_Logic_Conection();
+
+    if ($link && !is_array($link)) {
+        $sql = "SELECT * FROM `informatietable` WHERE `id` = $studentId";
+        $result = mysqli_query($link, $sql);
+        $current_student = mysqli_fetch_assoc($result);
+    }
+}
+
+
+if (isset($_POST['update_student'])) {
+    $link = $db->Db_Logic_Conection();
+
+    if ($link && !is_array($link)) {
+        $id = (int)$_POST['student_id'];
+        $student    = mysqli_real_escape_string($link, trim($_POST['Student'] ?? ''));
+        $department = mysqli_real_escape_string($link, trim($_POST['Department'] ?? ''));
+        $progres    = mysqli_real_escape_string($link, trim($_POST['Progres'] ?? ''));
+        $status     = mysqli_real_escape_string($link, trim($_POST['Status'] ?? ''));
+
+        $sql = "UPDATE `informatietable` SET 
+                `Student` = '$student', 
+                `Department` = '$department', 
+                `Progres` = '$progres', 
+                `Status` = '$status' 
+                WHERE `id` = $id";
+
+        if (mysqli_query($link, $sql)) {
+            header("Location: index.php");
+            exit;
+        } else {
+            $error_message = 'Ошибка при обновлении данных: ' . mysqli_error($link);
+        }
+    }
+}
+?>
